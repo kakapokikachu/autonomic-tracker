@@ -1,0 +1,1 @@
+{"name":"Autonomic Daily","short_name":"Autonomic","description":"A private, local-first daily symptom tracker.","start_url":"./","display":"standalone","background_color":"#f4f7f6","theme_color":"#2f6f68","icons":[{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

@@ -1,0 +1,8 @@
+export type Severity=0|1|2|3;
+export type RecordDay={date:string;status:string;burden:number;energy:number;upright:number;sleep:number;symptoms:Record<string,{severity:Severity;note:string}>;measurements:{weight:string;fluid:string;urine:string;urinations:string;bp:string;heartRate:string;temperature:string;weightUnit:string;fluidUnit:string;tempUnit:string};activity:{physical:string;cognitive:string;social:string;delayed:string};cycle:{day:string;phase:string;pmdd:string;note:string};notes:string;updatedAt:string};
+const DB='autonomic-daily',STORE='days';let promise:Promise<IDBDatabase>|null=null;
+function db(){return promise??=new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'date'})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+export async function saveDay(v:RecordDay){const d=await db();return new Promise<void>((resolve,reject)=>{const t=d.transaction(STORE,'readwrite');t.objectStore(STORE).put(v);t.oncomplete=()=>resolve();t.onerror=()=>reject(t.error)})}
+export async function getDay(date:string){const d=await db();return new Promise<RecordDay|undefined>((resolve,reject)=>{const r=d.transaction(STORE).objectStore(STORE).get(date);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+export async function getAllDays(){const d=await db();return new Promise<RecordDay[]>((resolve,reject)=>{const r=d.transaction(STORE).objectStore(STORE).getAll();r.onsuccess=()=>resolve((r.result as RecordDay[]).sort((a,b)=>a.date.localeCompare(b.date)));r.onerror=()=>reject(r.error)})}
+export async function importDays(days:RecordDay[]){for(const day of days)await saveDay(day)}
