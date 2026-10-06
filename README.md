@@ -129,3 +129,8 @@ It is:
 Users should consult qualified healthcare professionals regarding symptoms, medications, treatment decisions, or medical concerns.
 
 --
+## Development Notes
+
+This project was developed through iterative collaboration between the project creator and AI-assisted development tools.
+
+Project direction, feature selection, workflow design, and real-world testing were driven by lived experience and daily use.
