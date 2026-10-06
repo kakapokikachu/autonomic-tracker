@@ -2,6 +2,8 @@
 
 A local-first symptom tracker designed for people managing autonomic dysfunction, post-exertional malaise (PEM), chronic illness, fluctuating energy levels, and complex symptom patterns.
 
+**Privacy-first by design:** All data remains on the user's device. No accounts, no cloud storage, no tracking, and no data collection.
+
 This project was originally built for personal use and evolved through real-world daily tracking and iteration.
 
 ---
