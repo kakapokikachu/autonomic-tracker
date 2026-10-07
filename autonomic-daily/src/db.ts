@@ -1,6 +1,8 @@
 export type Severity=0|1|2|3;
 export type VitalReading={time:string;bp:string;heartRate:string;temperature:string;context:string};
-export type RecordDay={date:string;status:string;burden:number;energy:number;upright:number;sleep:number;symptoms:Record<string,{severity:Severity;note:string}>;measurements:{fluid:string;urine:string;urinations:string;fluidUnit:string;tempUnit:string;electrolyte:boolean;vitals:VitalReading[]};activity:{physical:string;cognitive:string;social:string;delayed:string};cycle:{day:string;phase:string;pmdd:string;note:string};notes:string;updatedAt:string};
+export type FluidTally={water32:number;drink12:number;small:number;medium:number;large:number;veryLarge:number};
+export type LifeEvent={id:string;date:string;title:string;note:string};
+export type RecordDay={date:string;status:string;burden:number;energy:number;upright:number;sleep:number;symptoms:Record<string,{severity:Severity;note:string}>;measurements:{fluidUnit:string;tempUnit:string;electrolyte:boolean;vitals:VitalReading[];tally:FluidTally};activity:{physical:string;cognitive:string;social:string;delayed:string};cycle:{resetDate:string;pmdd:string;note:string};lifeEvents:LifeEvent[];notes:string;updatedAt:string};
 const DB='autonomic-daily',STORE='days';let promise:Promise<IDBDatabase>|null=null;
 function db(){return promise??=new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains(STORE))r.result.createObjectStore(STORE,{keyPath:'date'})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 export async function saveDay(v:RecordDay){const d=await db();return new Promise<void>((resolve,reject)=>{const t=d.transaction(STORE,'readwrite');t.objectStore(STORE).put(v);t.oncomplete=()=>resolve();t.onerror=()=>reject(t.error)})}
